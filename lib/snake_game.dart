@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,10 @@ class SnakeGame extends StatefulWidget {
 }
 
 class _SnakeGameState extends State<SnakeGame> {
+  final Random random = Random();
+
   List<int> snake = [35, 55, 75, 95];
+  late int food;
 
   Direction direction = Direction.Down;
 
@@ -28,6 +32,8 @@ class _SnakeGameState extends State<SnakeGame> {
 
     axisX = widget.size.width ~/ 20;
     axisY = ((widget.size.height - kToolbarHeight) ~/ 20) * axisX;
+
+    food = random.nextInt(axisY);
 
     Timer.periodic(Duration(milliseconds: 500), (_) {
       update();
@@ -52,22 +58,26 @@ class _SnakeGameState extends State<SnakeGame> {
         break;
       case Direction.Left:
         if (snake.last % axisX == 0) {
-          snake.add(snake.last - axisX);
+          snake.add(snake.last - 1 + axisX);
         } else {
           snake.add(snake.last - 1);
         }
         break;
       case Direction.Right:
         if ((snake.last + 1) % axisX == 0) {
-          snake.add(snake.last + axisX);
+          snake.add(snake.last + 1 - axisX);
         } else {
           snake.add(snake.last + 1);
         }
         break;
       default:
     }
+    if (snake.last == food) {
+      food = random.nextInt(axisY);
+    } else {
+      snake.removeAt(0);
+    }
 
-    snake.removeAt(0);
     setState(() {});
   }
 
@@ -104,7 +114,14 @@ class _SnakeGameState extends State<SnakeGame> {
       ),
       itemBuilder: (context, index) => Container(
         margin: EdgeInsets.all(2),
-        color: snake.contains(index) ? Colors.green : Colors.grey[200],
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(2),
+          color: snake.contains(index)
+              ? Colors.green[400]
+              : (food == index)
+                  ? Colors.red
+                  : Colors.grey[200],
+        ),
       ),
     );
   }

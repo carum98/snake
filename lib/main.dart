@@ -24,7 +24,7 @@ class SnakePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Container(
-        color: Colors.black,
+        color: Colors.grey,
         child: SnakeGame(
           size: MediaQuery.of(context).size,
         ),
