@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:snake/constants/direction.dart';
 import 'package:snake/inherited/score_inherited.dart';
-import 'package:snake/widgets/panel_score.dart';
 
 class SnakeGame extends StatefulWidget {
   final int width;

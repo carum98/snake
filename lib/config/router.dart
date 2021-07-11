@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:snake/constants/levels.dart';
-import 'package:snake/main.dart';
 import 'package:snake/pages/menu_page.dart';
 import 'package:snake/pages/select_level_page.dart';
+import 'package:snake/pages/snake_page.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {

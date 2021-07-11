@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:snake/inherited/score_inherited.dart';
-import 'package:snake/models/score.dart';
 
 class PanelScore extends StatefulWidget {
   const PanelScore({Key? key}) : super(key: key);
