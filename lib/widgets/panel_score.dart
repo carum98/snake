@@ -25,7 +25,25 @@ class _PanelScoreState extends State<PanelScore> {
 
   @override
   Widget build(BuildContext context) {
-    return Text('Score $score');
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Text(
+            'Score: ${_buildScore(score)}',
+            style: const TextStyle(
+              fontFamily: 'Digital-7',
+              fontSize: 40,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  String _buildScore(int score) {
+    return score >= 10 ? '$score' : '0$score';
   }
 }
 
