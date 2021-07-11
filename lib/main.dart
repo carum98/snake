@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:snake/config/router.dart';
 import 'package:snake/constants/levels.dart';
 import 'package:snake/models/score.dart';
@@ -17,6 +18,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        appBarTheme: AppBarTheme(
+          backwardsCompatibility: false, // 1
+          systemOverlayStyle: SystemUiOverlayStyle.light, // 2
+        ),
+      ),
       initialRoute: '/',
       onGenerateRoute: RouteGenerator.generateRoute,
     );

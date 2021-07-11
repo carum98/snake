@@ -18,7 +18,7 @@ class SelectLevelPage extends StatelessWidget {
         itemBuilder: (context, index) => Container(
           margin: EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: Colors.grey[400],
+            color: Colors.blue.shade200,
             borderRadius: BorderRadius.circular(10),
           ),
           child: Material(
