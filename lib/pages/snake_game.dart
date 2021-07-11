@@ -9,7 +9,8 @@ import 'package:snake/constants/direction.dart';
 
 class SnakeGame extends StatefulWidget {
   final Size size;
-  const SnakeGame({Key? key, required this.size}) : super(key: key);
+  final int width;
+  const SnakeGame({Key? key, required this.size, required this.width}) : super(key: key);
 
   @override
   _SnakeGameState createState() => _SnakeGameState();
@@ -30,8 +31,8 @@ class _SnakeGameState extends State<SnakeGame> {
   void initState() {
     super.initState();
 
-    axisX = widget.size.width ~/ 60;
-    axisY = ((widget.size.height - kToolbarHeight) ~/ 60) * axisX;
+    axisX = widget.size.width ~/ widget.width;
+    axisY = ((widget.size.height - kToolbarHeight) ~/ widget.width) * axisX;
 
     food = random.nextInt(axisY);
 

@@ -20,7 +20,8 @@ class MyApp extends StatelessWidget {
 }
 
 class SnakePage extends StatelessWidget {
-  const SnakePage({Key? key}) : super(key: key);
+  final int width;
+  const SnakePage({Key? key, required this.width}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +30,7 @@ class SnakePage extends StatelessWidget {
         color: Colors.grey,
         child: SnakeGame(
           size: MediaQuery.of(context).size,
+          width: width,
         ),
       ),
     );
