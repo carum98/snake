@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:snake/constants/levels.dart';
 import 'package:snake/pages/menu_page.dart';
 import 'package:snake/pages/select_level_page.dart';
+import 'package:snake/pages/setting_page.dart';
 import 'package:snake/pages/snake_page.dart';
 
 class RouteGenerator {
@@ -21,6 +22,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => SnakePage(level: Levels.Four));
       case '/level/5':
         return MaterialPageRoute(builder: (_) => SnakePage(level: Levels.Five));
+      case '/settings':
+        return MaterialPageRoute(builder: (_) => SettingPage());
     }
 
     return MaterialPageRoute(builder: (_) => Container());

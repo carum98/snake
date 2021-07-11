@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:snake/constants/direction.dart';
 import 'package:snake/inherited/score_inherited.dart';
+import 'package:snake/inherited/setting_inherited.dart';
+import 'package:snake/models/setting.dart';
 
 class SnakeGame extends StatefulWidget {
   final int width;
@@ -24,6 +26,7 @@ class _SnakeGameState extends State<SnakeGame> {
   int axisX = 1, axisY = 1, food = 1;
 
   late Timer timer;
+  late Setting setting;
 
   @override
   void initState() {
@@ -34,6 +37,8 @@ class _SnakeGameState extends State<SnakeGame> {
       axisY = ((context.size!.height - kToolbarHeight) ~/ widget.width) * axisX;
 
       food = random.nextInt(axisY);
+
+      setting = SettingsInherited.of(context).setting;
 
       timer = Timer.periodic(Duration(milliseconds: 300), (timer) {
         update();
@@ -55,32 +60,28 @@ class _SnakeGameState extends State<SnakeGame> {
     switch (direction) {
       case Direction.Down:
         if (snake.last > axisY) {
-          // snake.add(snake.last - axisY);
-          gameOver();
+          (setting.border) ? gameOver() : snake.add(snake.last - axisY);
         } else {
           snake.add(snake.last + axisX);
         }
         break;
       case Direction.Up:
         if (snake.last < axisX) {
-          // snake.add(snake.last + axisY);
-          gameOver();
+          (setting.border) ? gameOver() : snake.add(snake.last + axisY);
         } else {
           snake.add(snake.last - axisX);
         }
         break;
       case Direction.Left:
         if (snake.last % axisX == 0) {
-          // snake.add(snake.last - 1 + axisX);
-          gameOver();
+          (setting.border) ? gameOver() : snake.add(snake.last - 1 + axisX);
         } else {
           snake.add(snake.last - 1);
         }
         break;
       case Direction.Right:
         if ((snake.last + 1) % axisX == 0) {
-          // snake.add(snake.last + 1 - axisX);
-          gameOver();
+          (setting.border) ? gameOver() : snake.add(snake.last + 1 - axisX);
         } else {
           snake.add(snake.last + 1);
         }

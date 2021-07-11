@@ -5,6 +5,7 @@ class MenuPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('Build');
     return Scaffold(
       appBar: AppBar(
         title: Text('Snake'),
@@ -35,7 +36,7 @@ class MenuPage extends StatelessWidget {
             _Button(
               icon: Icons.settings_outlined,
               onTap: () {
-                Navigator.pushNamed(context, '/levels');
+                Navigator.pushNamed(context, '/settings');
               },
             ),
           ],

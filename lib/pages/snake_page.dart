@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:snake/constants/levels.dart';
 import 'package:snake/inherited/score_inherited.dart';
 import 'package:snake/models/score.dart';
-import 'package:snake/pages/snake_game.dart';
+import 'package:snake/widgets/snake_game.dart';
 import 'package:snake/widgets/panel_score.dart';
 
 class SnakePage extends StatelessWidget {

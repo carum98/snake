@@ -1,9 +1,9 @@
 class Setting {
   bool border = false;
-  bool obstacules = false;
+  bool obstacules = true;
 
-  Setting({
-    required this.border,
-    required this.obstacules,
-  });
+  // Setting({
+  //   required this.border,
+  //   required this.obstacules,
+  // });
 }
