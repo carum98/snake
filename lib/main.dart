@@ -5,6 +5,7 @@ import 'package:snake/constants/levels.dart';
 import 'package:snake/models/score.dart';
 import 'package:snake/widgets/panel_score.dart';
 
+import 'inherited/score_inherited.dart';
 import 'pages/snake_game.dart';
 
 void main() {
@@ -41,7 +42,7 @@ class SnakePage extends StatelessWidget {
         title: Text('Level ${level.string}'),
         centerTitle: true,
       ),
-      body: ScoreInheritedWidget(
+      body: ScoreInherited(
         score: Score(),
         child: Column(
           children: [

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:snake/inherited/score_inherited.dart';
 import 'package:snake/models/score.dart';
 
 class PanelScore extends StatefulWidget {
@@ -15,9 +16,9 @@ class _PanelScoreState extends State<PanelScore> {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    ScoreInheritedWidget.of(context).score.addListener(() {
+    ScoreInherited.of(context).score.addListener(() {
       print('Score increase');
-      score = ScoreInheritedWidget.of(context).score.score;
+      score = ScoreInherited.of(context).score.score;
 
       setState(() {});
     });
@@ -31,7 +32,7 @@ class _PanelScoreState extends State<PanelScore> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Text(
-            'Score: ${_buildScore(score)}',
+            'Score: ${_buildScore(score)} / 100',
             style: const TextStyle(
               fontFamily: 'Digital-7',
               fontSize: 40,
@@ -45,24 +46,4 @@ class _PanelScoreState extends State<PanelScore> {
   String _buildScore(int score) {
     return score >= 10 ? '$score' : '0$score';
   }
-}
-
-class ScoreInheritedWidget extends InheritedWidget {
-  ScoreInheritedWidget({
-    Key? key,
-    required Widget child,
-    required this.score,
-  }) : super(key: key, child: child);
-
-  final Score score;
-
-  static ScoreInheritedWidget of(BuildContext context) {
-    final ScoreInheritedWidget? result =
-        context.dependOnInheritedWidgetOfExactType<ScoreInheritedWidget>();
-    assert(result != null, 'No FrogColor found in context');
-    return result!;
-  }
-
-  @override
-  bool updateShouldNotify(covariant InheritedWidget oldWidget) => true;
 }

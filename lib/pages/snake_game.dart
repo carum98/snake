@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:snake/constants/direction.dart';
+import 'package:snake/inherited/score_inherited.dart';
 import 'package:snake/widgets/panel_score.dart';
 
 class SnakeGame extends StatefulWidget {
@@ -19,7 +20,7 @@ class SnakeGame extends StatefulWidget {
 class _SnakeGameState extends State<SnakeGame> {
   final Random random = Random();
 
-  List<int> snake = [35, 55, 75, 95];
+  List<int> snake = [1];
   Direction direction = Direction.Down;
   int axisX = 1, axisY = 1, food = 1;
 
@@ -40,7 +41,6 @@ class _SnakeGameState extends State<SnakeGame> {
 
         if (snake.length > snake.toSet().length) {
           gameOver();
-          timer.cancel();
         }
       });
     });
@@ -56,28 +56,32 @@ class _SnakeGameState extends State<SnakeGame> {
     switch (direction) {
       case Direction.Down:
         if (snake.last > axisY) {
-          snake.add(snake.last - axisY);
+          // snake.add(snake.last - axisY);
+          gameOver();
         } else {
           snake.add(snake.last + axisX);
         }
         break;
       case Direction.Up:
         if (snake.last < axisX) {
-          snake.add(snake.last + axisY);
+          // snake.add(snake.last + axisY);
+          gameOver();
         } else {
           snake.add(snake.last - axisX);
         }
         break;
       case Direction.Left:
         if (snake.last % axisX == 0) {
-          snake.add(snake.last - 1 + axisX);
+          // snake.add(snake.last - 1 + axisX);
+          gameOver();
         } else {
           snake.add(snake.last - 1);
         }
         break;
       case Direction.Right:
         if ((snake.last + 1) % axisX == 0) {
-          snake.add(snake.last + 1 - axisX);
+          // snake.add(snake.last + 1 - axisX);
+          gameOver();
         } else {
           snake.add(snake.last + 1);
         }
@@ -87,7 +91,7 @@ class _SnakeGameState extends State<SnakeGame> {
 
     if (snake.last == food) {
       food = random.nextInt(axisY);
-      ScoreInheritedWidget.of(context).score.increseScore();
+      ScoreInherited.of(context).score.increseScore();
     } else {
       snake.removeAt(0);
     }
@@ -171,6 +175,8 @@ class _SnakeGameState extends State<SnakeGame> {
   }
 
   void gameOver() {
+    timer.cancel();
+
     showDialog(
       context: context,
       builder: (context) => Dialog(

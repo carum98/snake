@@ -12,14 +12,15 @@ class SelectLevelPage extends StatelessWidget {
       ),
       body: GridView.builder(
         itemCount: 5,
+        padding: EdgeInsets.all(20),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
         ),
         itemBuilder: (context, index) => Container(
-          margin: EdgeInsets.all(10),
+          margin: EdgeInsets.all(15),
           decoration: BoxDecoration(
-            color: Colors.blue.shade200,
-            borderRadius: BorderRadius.circular(10),
+            color: Colors.blue,
+            borderRadius: BorderRadius.circular(15),
           ),
           child: Material(
             color: Colors.transparent,
