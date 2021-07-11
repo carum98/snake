@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:snake/router.dart';
 
 import 'snake_game.dart';
 
@@ -12,7 +13,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: SnakePage(),
+      initialRoute: '/',
+      onGenerateRoute: RouteGenerator.generateRoute,
     );
   }
 }

@@ -30,8 +30,8 @@ class _SnakeGameState extends State<SnakeGame> {
   void initState() {
     super.initState();
 
-    axisX = widget.size.width ~/ 20;
-    axisY = ((widget.size.height - kToolbarHeight) ~/ 20) * axisX;
+    axisX = widget.size.width ~/ 60;
+    axisY = ((widget.size.height - kToolbarHeight) ~/ 60) * axisX;
 
     food = random.nextInt(axisY);
 
