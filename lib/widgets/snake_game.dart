@@ -22,6 +22,8 @@ class _SnakeGameState extends State<SnakeGame> {
   final Random random = Random();
 
   List<int> snake = [1];
+  List<int> obstables = [];
+
   Direction direction = Direction.Down;
   int axisX = 1, axisY = 1, food = 1;
 
@@ -40,8 +42,16 @@ class _SnakeGameState extends State<SnakeGame> {
 
       setting = SettingsInherited.of(context).setting;
 
+      if (setting.obstacules) {
+        obstables = List.generate(5, (index) => random.nextInt(axisY));
+      }
+
       timer = Timer.periodic(Duration(milliseconds: 300), (timer) {
         update();
+
+        if (obstables.any((element) => snake.contains(element))) {
+          gameOver();
+        }
 
         if (snake.length > snake.toSet().length) {
           gameOver();
@@ -140,7 +150,9 @@ class _SnakeGameState extends State<SnakeGame> {
               ? Colors.green[400]
               : (food == index)
                   ? Colors.red
-                  : Colors.grey[200],
+                  : (obstables.contains(index))
+                      ? Colors.black54
+                      : Colors.grey[200],
         ),
       ),
     );

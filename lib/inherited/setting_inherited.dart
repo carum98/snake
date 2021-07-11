@@ -18,5 +18,5 @@ class SettingsInherited extends InheritedWidget {
   }
 
   @override
-  bool updateShouldNotify(covariant InheritedWidget oldWidget) => true;
+  bool updateShouldNotify(covariant InheritedWidget oldWidget) => false;
 }
