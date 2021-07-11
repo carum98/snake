@@ -35,8 +35,13 @@ class _SnakeGameState extends State<SnakeGame> {
 
     food = random.nextInt(axisY);
 
-    Timer.periodic(Duration(milliseconds: 500), (_) {
+    Timer.periodic(Duration(milliseconds: 300), (timer) {
       update();
+
+      if (snake.length > snake.toSet().length) {
+        gameOver();
+        timer.cancel();
+      }
     });
   }
 
@@ -152,5 +157,14 @@ class _SnakeGameState extends State<SnakeGame> {
         direction = Direction.Right;
       }
     }
+  }
+
+  void gameOver() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Game Over'),
+      ),
+    );
   }
 }
