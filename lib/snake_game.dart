@@ -1,6 +1,9 @@
 import 'dart:async';
+import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:snake/direction.dart';
 
 class SnakeGame extends StatefulWidget {
@@ -47,14 +50,14 @@ class _SnakeGameState extends State<SnakeGame> {
           snake.add(snake.last - axisX);
         }
         break;
-      case Direction.Right:
+      case Direction.Left:
         if (snake.last % axisX == 0) {
           snake.add(snake.last - axisX);
         } else {
           snake.add(snake.last - 1);
         }
         break;
-      case Direction.Left:
+      case Direction.Right:
         if ((snake.last + 1) % axisX == 0) {
           snake.add(snake.last + axisX);
         } else {
@@ -70,32 +73,67 @@ class _SnakeGameState extends State<SnakeGame> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onVerticalDragUpdate: (details) {
-        if (direction != Direction.Up && details.delta.dy > 0) {
-          direction = Direction.Down;
-        } else if (direction != Direction.Down && details.delta.dy < 0) {
-          direction = Direction.Up;
-        }
-      },
-      onHorizontalDragUpdate: (details) {
-        if (direction != Direction.Right && details.delta.dx > 0) {
-          direction = Direction.Left;
-        } else if (direction != Direction.Left && details.delta.dx < 0) {
-          direction = Direction.Right;
-        }
-      },
-      child: GridView.builder(
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: axisY,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: axisX,
-        ),
-        itemBuilder: (context, index) => Container(
-          margin: EdgeInsets.all(2),
-          color: snake.contains(index) ? Colors.green : Colors.grey[200],
-        ),
+    return (kIsWeb || Platform.isMacOS)
+        ? RawKeyboardListener(
+            focusNode: FocusNode(),
+            autofocus: true,
+            onKey: (RawKeyEvent event) {
+              if (event is RawKeyDownEvent) {
+                _keyboardControl(event.physicalKey);
+              }
+            },
+            child: _buildGrid(),
+          )
+        : GestureDetector(
+            onVerticalDragUpdate: (details) {
+              _gestureControl(details, 'vertical');
+            },
+            onHorizontalDragUpdate: (details) {
+              _gestureControl(details, 'horizontal');
+            },
+            child: _buildGrid(),
+          );
+  }
+
+  GridView _buildGrid() {
+    return GridView.builder(
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: axisY,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: axisX,
+      ),
+      itemBuilder: (context, index) => Container(
+        margin: EdgeInsets.all(2),
+        color: snake.contains(index) ? Colors.green : Colors.grey[200],
       ),
     );
+  }
+
+  void _keyboardControl(PhysicalKeyboardKey key) {
+    if (key == PhysicalKeyboardKey.arrowDown) {
+      direction = Direction.Down;
+    } else if (key == PhysicalKeyboardKey.arrowUp) {
+      direction = Direction.Up;
+    } else if (key == PhysicalKeyboardKey.arrowLeft) {
+      direction = Direction.Left;
+    } else if (key == PhysicalKeyboardKey.arrowRight) {
+      direction = Direction.Right;
+    }
+  }
+
+  void _gestureControl(DragUpdateDetails details, String axis) {
+    if (axis == 'vertical') {
+      if (direction != Direction.Up && details.delta.dy > 0) {
+        direction = Direction.Down;
+      } else if (direction != Direction.Down && details.delta.dy < 0) {
+        direction = Direction.Up;
+      }
+    } else if (axis == 'horizontal') {
+      if (direction != Direction.Right && details.delta.dx < 0) {
+        direction = Direction.Left;
+      } else if (direction != Direction.Left && details.delta.dx > 0) {
+        direction = Direction.Right;
+      }
+    }
   }
 }
