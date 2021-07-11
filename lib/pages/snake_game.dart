@@ -27,6 +27,8 @@ class _SnakeGameState extends State<SnakeGame> {
   late int axisX;
   late int axisY;
 
+  late Timer timer;
+
   @override
   void initState() {
     super.initState();
@@ -36,7 +38,7 @@ class _SnakeGameState extends State<SnakeGame> {
 
     food = random.nextInt(axisY);
 
-    Timer.periodic(Duration(milliseconds: 300), (timer) {
+    timer = Timer.periodic(Duration(milliseconds: 300), (timer) {
       update();
 
       if (snake.length > snake.toSet().length) {
@@ -44,6 +46,12 @@ class _SnakeGameState extends State<SnakeGame> {
         timer.cancel();
       }
     });
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
   }
 
   void update() {

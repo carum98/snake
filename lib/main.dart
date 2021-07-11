@@ -25,13 +25,14 @@ class SnakePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Container(
-        color: Colors.grey,
-        child: SnakeGame(
-          size: MediaQuery.of(context).size,
-          width: width,
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Level'),
+        centerTitle: true,
+      ),
+      body: SnakeGame(
+        size: MediaQuery.of(context).size,
+        width: width,
       ),
     );
   }
