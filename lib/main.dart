@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:snake/config/router.dart';
+import 'package:snake/constants/levels.dart';
+import 'package:snake/widgets/panel_score.dart';
 
 import 'pages/snake_game.dart';
 
@@ -20,22 +22,22 @@ class MyApp extends StatelessWidget {
 }
 
 class SnakePage extends StatelessWidget {
-  final int width;
-  const SnakePage({Key? key, required this.width}) : super(key: key);
+  final Levels level;
+  const SnakePage({Key? key, required this.level}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Level'),
+        title: Text('Level ${level.string}'),
         centerTitle: true,
       ),
       body: Column(
         children: [
-          Text('Score'),
+          PanelScore(),
           Expanded(
             child: SnakeGame(
-              width: width,
+              width: level.width,
             ),
           ),
         ],

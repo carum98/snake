@@ -12,15 +12,15 @@ class RouteGenerator {
       case '/levels':
         return MaterialPageRoute(builder: (_) => SelectLevelPage());
       case '/level/1':
-        return MaterialPageRoute(builder: (_) => SnakePage(width: Levels.one));
+        return MaterialPageRoute(builder: (_) => SnakePage(level: Levels.One));
       case '/level/2':
-        return MaterialPageRoute(builder: (_) => SnakePage(width: Levels.two));
+        return MaterialPageRoute(builder: (_) => SnakePage(level: Levels.Two));
       case '/level/3':
-        return MaterialPageRoute(builder: (_) => SnakePage(width: Levels.three));
+        return MaterialPageRoute(builder: (_) => SnakePage(level: Levels.Three));
       case '/level/4':
-        return MaterialPageRoute(builder: (_) => SnakePage(width: Levels.four));
+        return MaterialPageRoute(builder: (_) => SnakePage(level: Levels.Four));
       case '/level/5':
-        return MaterialPageRoute(builder: (_) => SnakePage(width: Levels.five));
+        return MaterialPageRoute(builder: (_) => SnakePage(level: Levels.Five));
     }
 
     return MaterialPageRoute(builder: (_) => Container());
