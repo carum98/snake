@@ -173,8 +173,38 @@ class _SnakeGameState extends State<SnakeGame> {
   void gameOver() {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Game Over'),
+      builder: (context) => Dialog(
+        backgroundColor: Colors.transparent,
+        child: Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(4),
+          ),
+          color: Colors.white,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(height: 20),
+              Icon(
+                Icons.highlight_off_outlined,
+                color: Colors.red,
+                size: 60,
+              ),
+              Text(
+                'Game Over',
+                style: TextStyle(fontSize: 30),
+              ),
+              SizedBox(height: 20),
+              ElevatedButton(
+                child: Text('Exit'),
+                onPressed: () {
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                },
+              ),
+              SizedBox(height: 20),
+            ],
+          ),
+        ),
       ),
     );
   }
