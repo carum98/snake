@@ -8,9 +8,8 @@ import 'package:flutter/services.dart';
 import 'package:snake/constants/direction.dart';
 
 class SnakeGame extends StatefulWidget {
-  final Size size;
   final int width;
-  const SnakeGame({Key? key, required this.size, required this.width}) : super(key: key);
+  const SnakeGame({Key? key, required this.width}) : super(key: key);
 
   @override
   _SnakeGameState createState() => _SnakeGameState();
@@ -20,12 +19,8 @@ class _SnakeGameState extends State<SnakeGame> {
   final Random random = Random();
 
   List<int> snake = [35, 55, 75, 95];
-  late int food;
-
   Direction direction = Direction.Down;
-
-  late int axisX;
-  late int axisY;
+  int axisX = 1, axisY = 1, food = 1;
 
   late Timer timer;
 
@@ -33,18 +28,20 @@ class _SnakeGameState extends State<SnakeGame> {
   void initState() {
     super.initState();
 
-    axisX = widget.size.width ~/ widget.width;
-    axisY = ((widget.size.height - kToolbarHeight) ~/ widget.width) * axisX;
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      axisX = context.size!.width ~/ widget.width;
+      axisY = ((context.size!.height - kToolbarHeight) ~/ widget.width) * axisX;
 
-    food = random.nextInt(axisY);
+      food = random.nextInt(axisY);
 
-    timer = Timer.periodic(Duration(milliseconds: 300), (timer) {
-      update();
+      timer = Timer.periodic(Duration(milliseconds: 300), (timer) {
+        update();
 
-      if (snake.length > snake.toSet().length) {
-        gameOver();
-        timer.cancel();
-      }
+        if (snake.length > snake.toSet().length) {
+          gameOver();
+          timer.cancel();
+        }
+      });
     });
   }
 
@@ -86,6 +83,7 @@ class _SnakeGameState extends State<SnakeGame> {
         break;
       default:
     }
+
     if (snake.last == food) {
       food = random.nextInt(axisY);
     } else {
@@ -97,6 +95,8 @@ class _SnakeGameState extends State<SnakeGame> {
 
   @override
   Widget build(BuildContext context) {
+    if (axisY <= 1) return Center(child: CircularProgressIndicator());
+
     return (kIsWeb || Platform.isMacOS)
         ? RawKeyboardListener(
             focusNode: FocusNode(),

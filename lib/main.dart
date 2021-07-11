@@ -30,9 +30,15 @@ class SnakePage extends StatelessWidget {
         title: Text('Level'),
         centerTitle: true,
       ),
-      body: SnakeGame(
-        size: MediaQuery.of(context).size,
-        width: width,
+      body: Column(
+        children: [
+          Text('Score'),
+          Expanded(
+            child: SnakeGame(
+              width: width,
+            ),
+          ),
+        ],
       ),
     );
   }
