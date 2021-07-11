@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:snake/constants/direction.dart';
+import 'package:snake/widgets/panel_score.dart';
 
 class SnakeGame extends StatefulWidget {
   final int width;
@@ -86,6 +87,7 @@ class _SnakeGameState extends State<SnakeGame> {
 
     if (snake.last == food) {
       food = random.nextInt(axisY);
+      ScoreInheritedWidget.of(context).score.increseScore();
     } else {
       snake.removeAt(0);
     }

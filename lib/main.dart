@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:snake/config/router.dart';
 import 'package:snake/constants/levels.dart';
+import 'package:snake/models/score.dart';
 import 'package:snake/widgets/panel_score.dart';
 
 import 'pages/snake_game.dart';
@@ -32,15 +33,18 @@ class SnakePage extends StatelessWidget {
         title: Text('Level ${level.string}'),
         centerTitle: true,
       ),
-      body: Column(
-        children: [
-          PanelScore(),
-          Expanded(
-            child: SnakeGame(
-              width: level.width,
+      body: ScoreInheritedWidget(
+        score: Score(),
+        child: Column(
+          children: [
+            PanelScore(),
+            Expanded(
+              child: SnakeGame(
+                width: level.width,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
