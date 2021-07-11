@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:snake/router.dart';
+import 'package:snake/config/router.dart';
 
-import 'snake_game.dart';
+import 'pages/snake_game.dart';
 
 void main() {
   runApp(MyApp());

@@ -5,7 +5,7 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:snake/direction.dart';
+import 'package:snake/constants/direction.dart';
 
 class SnakeGame extends StatefulWidget {
   final Size size;
