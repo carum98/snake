@@ -18,13 +18,12 @@ class SnakePage extends StatelessWidget {
       ),
       body: ScoreInherited(
         score: Score(),
+        levels: level,
         child: Column(
           children: [
             PanelScore(),
             Expanded(
-              child: SnakeGame(
-                width: level.width,
-              ),
+              child: SnakeGame(),
             ),
           ],
         ),

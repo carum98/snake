@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:snake/constants/levels.dart';
 import 'package:snake/inherited/score_inherited.dart';
+import 'package:snake/widgets/next_level.dart';
 
 class PanelScore extends StatefulWidget {
   const PanelScore({Key? key}) : super(key: key);
@@ -10,16 +12,27 @@ class PanelScore extends StatefulWidget {
 
 class _PanelScoreState extends State<PanelScore> {
   int score = 0;
+  late Levels level;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
 
+    level = ScoreInherited.of(context).levels;
+
     ScoreInherited.of(context).score.addListener(() {
-      print('Score increase');
       score = ScoreInherited.of(context).score.score;
 
-      setState(() {});
+      if (ScoreInherited.of(context).score.isComplete(level.meta)) {
+        showDialog(
+          context: context,
+          builder: (_) => NextLevelDialog(
+            level: ScoreInherited.of(context).levels.string,
+          ),
+        );
+      } else {
+        setState(() {});
+      }
     });
   }
 
@@ -31,7 +44,7 @@ class _PanelScoreState extends State<PanelScore> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Text(
-            'Score: ${_buildScore(score)} / 100',
+            'Score: ${_buildScore(score)} / ${_buildScore(level.meta)}',
             style: const TextStyle(
               fontFamily: 'Digital-7',
               fontSize: 40,

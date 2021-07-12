@@ -24,6 +24,23 @@ extension IntLevels on Levels {
     }
   }
 
+  int get meta {
+    switch (this) {
+      case Levels.One:
+        return 5;
+      case Levels.Two:
+        return 70;
+      case Levels.Three:
+        return 50;
+      case Levels.Four:
+        return 20;
+      case Levels.Five:
+        return 10;
+      default:
+        throw Exception('No level');
+    }
+  }
+
   String get string {
     switch (this) {
       case Levels.One:

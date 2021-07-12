@@ -7,4 +7,8 @@ class Score extends ChangeNotifier {
     score++;
     notifyListeners();
   }
+
+  bool isComplete(int meta) {
+    return score >= meta;
+  }
 }

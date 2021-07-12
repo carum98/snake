@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:snake/constants/levels.dart';
 import 'package:snake/models/score.dart';
 
 class ScoreInherited extends InheritedWidget {
@@ -6,9 +7,11 @@ class ScoreInherited extends InheritedWidget {
     Key? key,
     required Widget child,
     required this.score,
+    required this.levels,
   }) : super(key: key, child: child);
 
   final Score score;
+  final Levels levels;
 
   static ScoreInherited of(BuildContext context) {
     final ScoreInherited? result = context.dependOnInheritedWidgetOfExactType<ScoreInherited>();

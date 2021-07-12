@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:snake/constants/direction.dart';
+import 'package:snake/constants/levels.dart';
 import 'package:snake/inherited/score_inherited.dart';
 import 'package:snake/inherited/setting_inherited.dart';
 import 'package:snake/models/setting.dart';
@@ -13,8 +14,7 @@ import 'package:snake/models/snake.dart';
 import 'package:snake/widgets/game_over.dart';
 
 class SnakeGame extends StatefulWidget {
-  final int width;
-  const SnakeGame({Key? key, required this.width}) : super(key: key);
+  const SnakeGame({Key? key}) : super(key: key);
 
   @override
   _SnakeGameState createState() => _SnakeGameState();
@@ -37,8 +37,10 @@ class _SnakeGameState extends State<SnakeGame> {
     super.initState();
 
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-      axisX = context.size!.width ~/ widget.width;
-      axisY = ((context.size!.height - kToolbarHeight) ~/ widget.width) * axisX;
+      final level = ScoreInherited.of(context).levels;
+
+      axisX = context.size!.width ~/ level.width;
+      axisY = ((context.size!.height - kToolbarHeight) ~/ level.width) * axisX;
 
       food = random.nextInt(axisY);
 
@@ -68,7 +70,11 @@ class _SnakeGameState extends State<SnakeGame> {
 
       timer = Timer.periodic(Duration(milliseconds: 300), (timer) {
         snake.move(direction, food);
-        setState(() {});
+        if (ScoreInherited.of(context).score.isComplete(level.meta)) {
+          timer.cancel();
+        } else {
+          setState(() {});
+        }
       });
     });
   }
