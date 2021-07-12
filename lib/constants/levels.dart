@@ -27,7 +27,7 @@ extension IntLevels on Levels {
   int get meta {
     switch (this) {
       case Levels.One:
-        return 5;
+        return 100;
       case Levels.Two:
         return 70;
       case Levels.Three:
