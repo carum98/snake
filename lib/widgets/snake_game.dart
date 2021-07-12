@@ -9,6 +9,8 @@ import 'package:snake/constants/direction.dart';
 import 'package:snake/inherited/score_inherited.dart';
 import 'package:snake/inherited/setting_inherited.dart';
 import 'package:snake/models/setting.dart';
+import 'package:snake/models/snake.dart';
+import 'package:snake/widgets/game_over.dart';
 
 class SnakeGame extends StatefulWidget {
   final int width;
@@ -21,7 +23,7 @@ class SnakeGame extends StatefulWidget {
 class _SnakeGameState extends State<SnakeGame> {
   final Random random = Random();
 
-  List<int> snake = [1];
+  late Snake snake;
   List<int> obstables = [];
 
   Direction direction = Direction.Down;
@@ -46,16 +48,27 @@ class _SnakeGameState extends State<SnakeGame> {
         obstables = List.generate(5, (index) => random.nextInt(axisY));
       }
 
+      snake = Snake(
+        axisX: axisX,
+        axisY: axisY,
+        setting: setting,
+        obstacles: obstables,
+        onEat: () {
+          food = random.nextInt(axisY);
+          ScoreInherited.of(context).score.increseScore();
+        },
+        onDie: () {
+          timer.cancel();
+          showDialog(
+            context: context,
+            builder: (_) => GameOverDialog(),
+          );
+        },
+      );
+
       timer = Timer.periodic(Duration(milliseconds: 300), (timer) {
-        update();
-
-        if (obstables.any((element) => snake.contains(element))) {
-          gameOver();
-        }
-
-        if (snake.length > snake.toSet().length) {
-          gameOver();
-        }
+        snake.move(direction, food);
+        setState(() {});
       });
     });
   }
@@ -64,49 +77,6 @@ class _SnakeGameState extends State<SnakeGame> {
   void dispose() {
     timer.cancel();
     super.dispose();
-  }
-
-  void update() {
-    switch (direction) {
-      case Direction.Down:
-        if (snake.last > axisY) {
-          (setting.border) ? gameOver() : snake.add(snake.last - axisY);
-        } else {
-          snake.add(snake.last + axisX);
-        }
-        break;
-      case Direction.Up:
-        if (snake.last < axisX) {
-          (setting.border) ? gameOver() : snake.add(snake.last + axisY);
-        } else {
-          snake.add(snake.last - axisX);
-        }
-        break;
-      case Direction.Left:
-        if (snake.last % axisX == 0) {
-          (setting.border) ? gameOver() : snake.add(snake.last - 1 + axisX);
-        } else {
-          snake.add(snake.last - 1);
-        }
-        break;
-      case Direction.Right:
-        if ((snake.last + 1) % axisX == 0) {
-          (setting.border) ? gameOver() : snake.add(snake.last + 1 - axisX);
-        } else {
-          snake.add(snake.last + 1);
-        }
-        break;
-      default:
-    }
-
-    if (snake.last == food) {
-      food = random.nextInt(axisY);
-      ScoreInherited.of(context).score.increseScore();
-    } else {
-      snake.removeAt(0);
-    }
-
-    setState(() {});
   }
 
   @override
@@ -146,7 +116,7 @@ class _SnakeGameState extends State<SnakeGame> {
         margin: EdgeInsets.all(2),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(2),
-          color: snake.contains(index)
+          color: snake.body.contains(index)
               ? Colors.green[400]
               : (food == index)
                   ? Colors.red
@@ -184,46 +154,5 @@ class _SnakeGameState extends State<SnakeGame> {
         direction = Direction.Right;
       }
     }
-  }
-
-  void gameOver() {
-    timer.cancel();
-
-    showDialog(
-      context: context,
-      builder: (context) => Dialog(
-        backgroundColor: Colors.transparent,
-        child: Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(4),
-          ),
-          color: Colors.white,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(height: 20),
-              Icon(
-                Icons.highlight_off_outlined,
-                color: Colors.red,
-                size: 60,
-              ),
-              Text(
-                'Game Over',
-                style: TextStyle(fontSize: 30),
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                child: Text('Exit'),
-                onPressed: () {
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                },
-              ),
-              SizedBox(height: 20),
-            ],
-          ),
-        ),
-      ),
-    );
   }
 }
