@@ -37,6 +37,32 @@ class _SettingPageState extends State<SettingPage> {
               setState(() {});
             },
           ),
+          ListTile(
+            leading: const Icon(Icons.speed),
+            title: const Text('Speed'),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              children: [
+                const Text('Fast'),
+                Expanded(
+                  child: Slider(
+                    value: SettingsInherited.of(context).setting.speed.toDouble(),
+                    min: 100,
+                    max: 900,
+                    divisions: 4,
+                    onChanged: (double value) {
+                      print(value);
+                      SettingsInherited.of(context).setting.speed = value.toInt();
+                      setState(() {});
+                    },
+                  ),
+                ),
+                const Text('Slow'),
+              ],
+            ),
+          )
         ],
       ),
     );

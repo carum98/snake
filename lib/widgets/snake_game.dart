@@ -68,7 +68,7 @@ class _SnakeGameState extends State<SnakeGame> {
         },
       );
 
-      timer = Timer.periodic(Duration(milliseconds: 300), (timer) {
+      timer = Timer.periodic(Duration(milliseconds: setting.speed), (timer) {
         snake.move(direction, food);
         if (ScoreInherited.of(context).score.isComplete(level.meta)) {
           timer.cancel();
